@@ -1,6 +1,6 @@
 # API Reference
 
-Complete technical reference for the Ejentum Logic API v1. If you have not read the [Quickstart](/docs/quickstart), start there. This page is the full specification for builders integrating into production.
+Complete technical reference for the Ejentum Logic API v1. If you have not read the [Quickstart](../getting-started/quickstart.md), start there. This page is the full specification for builders integrating into production.
 
 ## Base URL
 

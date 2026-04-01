@@ -1,6 +1,6 @@
 # Concepts
 
-How the Logic API works and why it improves agent reasoning. If you just want to start using it, go to [Quickstart](/docs/quickstart).
+How the Logic API works and why it improves agent reasoning. If you just want to start using it, go to [Quickstart](quickstart.md).
 
 ## The Core Idea
 
@@ -20,7 +20,7 @@ Ejentum replaces a 5,000-token system prompt with a compact structured payload i
 
 ## The Six Reasoning Dimensions
 
-Every reasoning task maps to one or more of six fundamental domains. Ejentum houses [311 abilities](/abilities) distributed across all six domains.
+Every reasoning task maps to one or more of six fundamental domains. Ejentum houses [311 abilities](https://ejentum.com/abilities) distributed across all six domains.
 
 ### 1. Causality
 **Domain:** Why things happen.
@@ -36,7 +36,7 @@ Every reasoning task maps to one or more of six fundamental domains. Ejentum hou
 **Domain:** Where things are.
 **Injects:** Boundary enforcement, topology validation, dimensional constraints.
 **Prevents:** Physical impossibilities like routes through walls, overlapping objects, broken continuity.
-Tested directly on [ARC-AGI-3](/blog/arc-agi-3-benchmark-report): a spatial navigation game where the scaffold forced intermediate path validation, preventing the agent from committing to blocked routes.
+Tested directly on [ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report): a spatial navigation game where the scaffold forced intermediate path validation, preventing the agent from committing to blocked routes.
 
 ### 4. Simulation
 **Domain:** What would happen if.
@@ -132,7 +132,7 @@ Suppression is multiplicative. It says "reject every output that exhibits Y."
 
 One suppression signal eliminates an entire class of failure modes. One amplification signal adds one more consideration to an already-noisy generation process. This asymmetry is why every ability contains suppression signals, even when amplification alone would seem sufficient.
 
-**The evidence:** across two independent benchmarks (250 single-turn tasks), the factor lift ranking is identical. Self-monitoring improves most (+132%), followed by verification (+85%), then alternative consideration, epistemic honesty, reasoning depth, and audit trail. This ranking holds across published academic tasks and custom professional scenarios. A third benchmark ([ARC-AGI-3](/blog/arc-agi-3-benchmark-report), 50 interactive reasoning steps) extends this to multi-step execution: the same suppression signals that improve single-turn quality also prevent reasoning decay over 25-step chains, with scaffold persistence measured at a half-life of 24 steps. Three benchmarks, three task types, consistent directional effects. This is evidence for a mechanism, not luck.
+**The evidence:** across two independent benchmarks (250 single-turn tasks), the factor lift ranking is identical. Self-monitoring improves most (+132%), followed by verification (+85%), then alternative consideration, epistemic honesty, reasoning depth, and audit trail. This ranking holds across published academic tasks and custom professional scenarios. A third benchmark ([ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report), 50 interactive reasoning steps) extends this to multi-step execution: the same suppression signals that improve single-turn quality also prevent reasoning decay over 25-step chains, with scaffold persistence measured at a half-life of 24 steps. Three benchmarks, three task types, consistent directional effects. This is evidence for a mechanism, not luck.
 
 ## Anatomy of a Cognitive Ability
 
@@ -210,9 +210,9 @@ Agents supporting clinical reasoning, protocol selection, or risk assessment. Co
 ### Multi-Agent Orchestration
 Systems where multiple agents collaborate on complex tasks. Common failures: contradictions between agents, duplication of reasoning without cross-validation, failure to synthesize competing outputs. Multi-ability mode (Haki) is designed for this. Four scaffolds that challenge each other prevent the tunnel vision that single-agent reasoning produces.
 
-*In our benchmarks, multi-ability mode showed +10.1pp composite improvement on complex cross-domain tasks ([EjBench](/blog/ejbench-180-tasks)). Single mode showed +8.0pp on focused tasks ([BBH/CausalBench/MuSR](/blog/bbh-causalbench-musr-benchmark)). The mode-task alignment is consistent across independent benchmarks. On multi-step execution ([ARC-AGI-3](/blog/arc-agi-3-benchmark-report)), scaffold persistence across 25-step chains adds a third dimension of evidence. See [Benchmarks](/docs/benchmarks) for the full methodology.*
+*In our benchmarks, multi-ability mode showed +10.1pp composite improvement on complex cross-domain tasks ([EjBench](https://ejentum.com/blog/ejbench-180-tasks)). Single mode showed +8.0pp on focused tasks ([BBH/CausalBench/MuSR](https://ejentum.com/blog/bbh-causalbench-musr-benchmark)). The mode-task alignment is consistent across independent benchmarks. On multi-step execution ([ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report)), scaffold persistence across 25-step chains adds a third dimension of evidence. See [Benchmarks](../understand/benchmarks.md) for the full methodology.*
 
-See all [13 industry applications](/use-cases) with specific failure patterns, connected abilities, and benchmark evidence per vertical. Browse [29 real benchmark tasks](/use-cases/tasks) with verbatim baseline vs scaffolded outputs.
+See all [13 industry applications](https://ejentum.com/use-cases) with specific failure patterns, connected abilities, and benchmark evidence per vertical. Browse [29 real benchmark tasks](https://ejentum.com/use-cases/tasks) with verbatim baseline vs scaffolded outputs.
 
 ---
 
@@ -227,8 +227,8 @@ Honest boundaries matter more than inflated claims.
 
 ## Next
 
-- [Quickstart](/docs/quickstart) to make your first API call
-- [Evaluate](/docs/evaluate) to measure the impact on your agents
-- [Integrations](/docs/integrations) for framework-specific guides
-- [API Reference](/docs/api_reference) for the full technical specification
-- [Method](/docs/method) for the theoretical foundations (advanced)
+- [Quickstart](quickstart.md) to make your first API call
+- [Evaluate](evaluate.md) to measure the impact on your agents
+- [Integrations](../build/integrations.md) for framework-specific guides
+- [API Reference](../build/api_reference.md) for the full technical specification
+- [Method](../understand/method.md) for the theoretical foundations (advanced)

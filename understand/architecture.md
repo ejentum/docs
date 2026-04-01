@@ -136,7 +136,7 @@ Ejentum works with any system that can make an HTTP POST and inject text into a 
 - **Cursor, Windsurf, Antigravity, Codex** — custom HTTP tool
 - **Any HTTP client** — Direct POST, parse JSON, inject
 
-See the [Integrations guide](/docs/integrations) for framework-specific code examples.
+See the [Integrations guide](../build/integrations.md) for framework-specific code examples.
 
 ---
 
@@ -156,4 +156,4 @@ See the [Integrations guide](/docs/integrations) for framework-specific code exa
 | `429` | Rate limit or monthly quota exceeded |
 | `500` | Server error (retry with backoff) |
 
-For the full API specification, see the [API Reference](/docs/api_reference).
+For the full API specification, see the [API Reference](../build/api_reference.md).

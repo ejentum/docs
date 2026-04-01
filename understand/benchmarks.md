@@ -47,7 +47,7 @@ In our benchmarks, 6 of 10 tasks where single-ability mode did not produce the b
 
 ### EjBench (180 Custom Professional Tasks)
 
-Custom tasks across 6 reasoning domains. Blind two-stage protocol: agents call the API as a tool (not injected artificially), a separate evaluator scores outputs without knowing which condition produced them. Full report: [EjBench: 180 Professional Tasks, Agent-Native, Blind](/blog/ejbench-180-tasks).
+Custom tasks across 6 reasoning domains. Blind two-stage protocol: agents call the API as a tool (not injected artificially), a separate evaluator scores outputs without knowing which condition produced them. Full report: [EjBench: 180 Professional Tasks, Agent-Native, Blind](https://ejentum.com/blog/ejbench-180-tasks).
 
 | Signal | Baseline | With Scaffold | Change |
 |--------|----------|--------------|--------|
@@ -62,7 +62,7 @@ Key observation: correctness stayed flat while every quality dimension improved 
 
 ### Published Academic Benchmarks (70 Tasks)
 
-BIG-Bench Hard, CausalBench, and MuSR (multi-step reasoning). Same blind protocol, same 7-signal rubric. These are published, peer-reviewed tasks that Ejentum has never seen. Full report: [RA2R on BBH, CausalBench, and MuSR](/blog/bbh-causalbench-musr-benchmark).
+BIG-Bench Hard, CausalBench, and MuSR (multi-step reasoning). Same blind protocol, same 7-signal rubric. These are published, peer-reviewed tasks that Ejentum has never seen. Full report: [RA2R on BBH, CausalBench, and MuSR](https://ejentum.com/blog/bbh-causalbench-musr-benchmark).
 
 | Signal | Baseline | With Scaffold | Change |
 |--------|----------|--------------|--------|
@@ -98,13 +98,13 @@ This is the first benchmark where we measure reasoning quality over extended exe
 
 **Limitations:** n=1 per condition. These are indicative traces, not statistically validated findings. All process metrics are measured in a failure context (neither agent cleared the level).
 
-Full report: [RA2R on ARC-AGI-3](/blog/arc-agi-3-benchmark-report). Step-by-step reasoning trace: [ARC-LS20-TRACE](/tasks/ARC-LS20-TRACE).
+Full report: [RA2R on ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report). Step-by-step reasoning trace: [ARC-LS20-TRACE](https://ejentum.com/tasks/ARC-LS20-TRACE).
 
 ### What Changes in the Output
 
 Real outputs from blind evaluation. The agent called the API itself, received the scaffold, and produced the response. Full outputs on each task profile.
 
-**Task [CA-V2-18](/tasks/CA-V2-18):** Reverse causality detection. A social media company observes likes correlate with posting frequency. The agent must reason about what the data would look like if the causal direction were reversed.
+**Task [CA-V2-18](https://ejentum.com/tasks/CA-V2-18):** Reverse causality detection. A social media company observes likes correlate with posting frequency. The agent must reason about what the data would look like if the causal direction were reversed.
 
 **Without scaffold** (composite: 0.286):
 > The answer is (B) Negative. Under the reverse-causal model, prolific posters produce more content but each additional post dilutes quality/attention.
@@ -116,7 +116,7 @@ Correct answer but no causal model structure. No mechanistic trace.
 
 The scaffold forced a causal graph before answering. Same answer, fundamentally different reasoning depth. The chain is explicit, traceable, and defensible.
 
-More real before/after outputs: [Response Examples](/docs/response_examples). Browse all [29 benchmark tasks](/use-cases/tasks).
+More real before/after outputs: [Response Examples](../build/response_examples.md). Browse all [29 benchmark tasks](https://ejentum.com/use-cases/tasks).
 
 ## Methodology
 
@@ -147,9 +147,9 @@ We measure behavioral change: does the agent reason differently? We do not claim
 
 ## See Real Outputs
 
-Browse [29 benchmark tasks](/use-cases/tasks) with full verbatim outputs from baseline, Ki, and Haki conditions. Each task shows the 7-signal rubric scores side by side.
+Browse [29 benchmark tasks](https://ejentum.com/use-cases/tasks) with full verbatim outputs from baseline, Ki, and Haki conditions. Each task shows the 7-signal rubric scores side by side.
 
-See how these results apply to specific industries: [13 use case profiles](/use-cases) with failure patterns, resolution abilities, and benchmark evidence per vertical.
+See how these results apply to specific industries: [13 use case profiles](https://ejentum.com/use-cases) with failure patterns, resolution abilities, and benchmark evidence per vertical.
 
 ## Reproduce Our Results
 

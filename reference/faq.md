@@ -6,15 +6,15 @@ Straight answers from the builder who designed this system. If your question is 
 
 ### Do I need to write code?
 
-No. If you use n8n or Make.com, you can integrate with HTTP request nodes and zero code. If you use LangChain, CrewAI, or other frameworks, see the [Integrations guide](/docs/integrations) for copy-pasteable code examples.
+No. If you use n8n or Make.com, you can integrate with HTTP request nodes and zero code. If you use LangChain, CrewAI, or other frameworks, see the [Integrations guide](../build/integrations.md) for copy-pasteable code examples.
 
 ### How much does it cost?
 
-Free tier: 100 calls, no credit card required. Ki: €19/month for 10,000 calls (single-ability mode). Haki: €49/month for 50,000 calls (multi-ability mode with compound scaffolds). [See pricing](/pricing).
+Free tier: 100 calls, no credit card required. Ki: €19/month for 10,000 calls (single-ability mode). Haki: €49/month for 50,000 calls (multi-ability mode with compound scaffolds). [See pricing](https://ejentum.com/pricing).
 
 ### How long does setup take?
 
-Under 10 minutes. Create an account, generate an API key from your dashboard, and make your first API call. The [Quickstart](/docs/quickstart) walks through it step by step.
+Under 10 minutes. Create an account, generate an API key from your dashboard, and make your first API call. The [Quickstart](../getting-started/quickstart.md) walks through it step by step.
 
 ## Understanding Ejentum
 
@@ -22,13 +22,13 @@ Under 10 minutes. Create an account, generate an API key from your dashboard, an
 
 System prompts are static, monolithic, and degrade at scale. Ejentum replaces a 5,000-token system prompt with a compact, structured payload injected dynamically at runtime.
 
-The key difference: the payload contains both amplification signals (what to think about) and [suppression signals](/docs/concepts#why-suppression-matters-more-than-amplification) (what failure modes to block). A system prompt says "be careful." A suppression signal says "reject any output that exhibits `symptom_treatment_bias`." In our testing, this produces measurably sharper reasoning.
+The key difference: the payload contains both amplification signals (what to think about) and [suppression signals](../getting-started/concepts.md#why-suppression-matters-more-than-amplification) (what failure modes to block). A system prompt says "be careful." A suppression signal says "reject any output that exhibits `symptom_treatment_bias`." In our testing, this produces measurably sharper reasoning.
 
 ### Is this just RAG?
 
 No. RAG retrieves *information*: documents, facts, data chunks. The agent still decides how to reason about that information using whatever patterns it learned during training.
 
-RA²R (Reasoning Ability-Augmented Retrieval) retrieves *reasoning abilities*: a structured payload that governs how the agent thinks. See [Concepts](/docs/concepts) for the full explanation.
+RA²R (Reasoning Ability-Augmented Retrieval) retrieves *reasoning abilities*: a structured payload that governs how the agent thinks. See [Concepts](../getting-started/concepts.md) for the full explanation.
 
 ### Does this replace my LLM?
 
@@ -56,7 +56,7 @@ Fine-tuned models may respond *more* effectively because their base weights alre
 
 ### Does this work with my framework?
 
-If your framework can make an HTTP POST request and inject text into a prompt, it works with Ejentum. We have specific guides for [n8n](/docs/integrations#n8n), [LangChain](/docs/integrations#langchain--langgraph), [CrewAI](/docs/integrations#crewai), [Claude Code](/docs/integrations#claude-code--agent-sdk), and [agentic IDEs](/docs/integrations#agentic-ides-cursor-windsurf-antigravity-codex). No SDK required.
+If your framework can make an HTTP POST request and inject text into a prompt, it works with Ejentum. We have specific guides for [n8n](../build/integrations.md#n8n), [LangChain](../build/integrations.md#langchain--langgraph), [CrewAI](../build/integrations.md#crewai), [Claude Code](../build/integrations.md#claude-code--agent-sdk), and [agentic IDEs](../build/integrations.md#agentic-ides-cursor-windsurf-antigravity-codex). No SDK required.
 
 ### What about latency?
 
@@ -94,7 +94,7 @@ Three approaches:
 
 The router does not have a manual override. This is by design. If you already know which ability you need, you don't need automatic routing. The value is in the automatic matching for queries where the right reasoning mode is not obvious.
 
-See the [query optimization guide](/docs/api_reference#writing-better-queries) for concrete examples.
+See the [query optimization guide](../build/api_reference.md#writing-better-queries) for concrete examples.
 
 ### How accurate is the retrieval?
 
@@ -112,21 +112,21 @@ Re-inject per turn. Each turn in a multi-turn conversation may require different
 
 Call the Ejentum API with the current turn's task description, not the conversation history. Per-turn injection keeps the reasoning context fresh.
 
-For long conversations (10+ turns), re-injection keeps the scaffold fresh. However, scaffolds resist decay more than plain instructions: on [ARC-AGI-3](/blog/arc-agi-3-benchmark-report) (25 sequential game actions), scaffold language persisted with a half-life of 24 steps and reasoning quality improved over time instead of degrading. Re-injection is still recommended per turn for optimal results, but a single scaffold injection does not vanish after 5 turns.
+For long conversations (10+ turns), re-injection keeps the scaffold fresh. However, scaffolds resist decay more than plain instructions: on [ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report) (25 sequential game actions), scaffold language persisted with a half-life of 24 steps and reasoning quality improved over time instead of degrading. Re-injection is still recommended per turn for optimal results, but a single scaffold injection does not vanish after 5 turns.
 
 ### What is the "lost in the middle" problem and how does Ejentum address it?
 
-LLMs attend most strongly to content at the beginning and end of their context window (Liu et al., 2023). Ejentum addresses this with a compressed structured payload (less middle to get lost in), structured `[REASONING CONTEXT]` delimiters (distinct attention anchor), and [injection at the START](/docs/integrations#the-injection-principle) of the system message. The [Cognitive Scaffolding Thesis](/blog/cognitive-scaffolding-thesis) models why: the scaffold's DAG notation occupies a structurally unique register in token space, receiving disproportionate attention weight that resists decay as task-specific tokens accumulate.
+LLMs attend most strongly to content at the beginning and end of their context window (Liu et al., 2023). Ejentum addresses this with a compressed structured payload (less middle to get lost in), structured `[REASONING CONTEXT]` delimiters (distinct attention anchor), and [injection at the START](../build/integrations.md#the-injection-principle) of the system message. The [Cognitive Scaffolding Thesis](https://ejentum.com/blog/cognitive-scaffolding-thesis) models why: the scaffold's DAG notation occupies a structurally unique register in token space, receiving disproportionate attention weight that resists decay as task-specific tokens accumulate.
 
 ## Reliability and Trust
 
 ### Can I see all 311 abilities?
 
-Yes. The [Abilities catalog](/abilities) contains the full reference: every ability, its reasoning scaffold, its dimension scores, and its synergy connections.
+Yes. The [Abilities catalog](https://ejentum.com/abilities) contains the full reference: every ability, its reasoning scaffold, its dimension scores, and its synergy connections.
 
 ### What happens if the API is down?
 
-Your agent continues functioning on native LLM reasoning — it just loses the reasoning injection. Ejentum is an enhancement layer, not a critical-path dependency. We architect for [graceful degradation](/docs/integrations#graceful-degradation). The API runs on a global edge network, targeting 99.9% availability.
+Your agent continues functioning on native LLM reasoning — it just loses the reasoning injection. Ejentum is an enhancement layer, not a critical-path dependency. We architect for [graceful degradation](../build/integrations.md#graceful-degradation). The API runs on a global edge network, targeting 99.9% availability.
 
 ### Is my query data stored?
 
@@ -134,7 +134,7 @@ All traffic is logged for audit and debugging purposes at the gateway level. Que
 
 ### How do I measure if Ejentum is actually improving my agent?
 
-Follow our [Evaluate guide](/docs/evaluate). In short: run 20+ tasks with and without injection, score on 4 signals (correctness, self-monitoring, verification, depth). In our benchmarks across 250 tasks (180 custom professional + 70 published academic), self-monitoring improved +132%, verification +85%, and correctness held steady or improved across 10 professional domains. On interactive multi-step tasks ([ARC-AGI-3](/blog/arc-agi-3-benchmark-report)), scaffold persistence and memory decay reversal were measurable across 25-step chains. Your results will vary, but the methodology is reproducible in one afternoon.
+Follow our [Evaluate guide](../getting-started/evaluate.md). In short: run 20+ tasks with and without injection, score on 4 signals (correctness, self-monitoring, verification, depth). In our benchmarks across 250 tasks (180 custom professional + 70 published academic), self-monitoring improved +132%, verification +85%, and correctness held steady or improved across 10 professional domains. On interactive multi-step tasks ([ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report)), scaffold persistence and memory decay reversal were measurable across 25-step chains. Your results will vary, but the methodology is reproducible in one afternoon.
 
 ### What can't Ejentum do?
 

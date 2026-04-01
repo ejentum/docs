@@ -1,6 +1,6 @@
 # Agent Tool Guide
 
-> **For the agent-facing skill file** (drop into IDE rules directories): see [Agent Skill File](/docs/agent_skill)
+> **For the agent-facing skill file** (drop into IDE rules directories): see [Agent Skill File](agent_skill.md)
 > This document is the developer-facing reference with code examples and architectural detail.
 
 This guide teaches any AI agent — Claude, GPT, Gemini, Llama, or a custom framework — how to use the Ejentum RA²R (Reasoning Ability-Augmented Retrieval) Logic API as a tool.

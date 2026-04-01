@@ -6,7 +6,7 @@ Add a reasoning scaffold to your AI agent. One API call. No SDK.
 
 You have an agent. It works on simple tasks. It fails on hard ones: compounding errors, stopping at the first plausible answer, never questioning its own conclusions.
 
-Ejentum adds a cognitive scaffold to your agent before each task. The scaffold tells the model what reasoning patterns to follow AND what failure modes to block. The failure-blocking signals (suppression) are what force the model past its natural stopping point. [Learn why suppression matters more than amplification](/docs/concepts#why-suppression-matters-more-than-amplification).
+Ejentum adds a cognitive scaffold to your agent before each task. The scaffold tells the model what reasoning patterns to follow AND what failure modes to block. The failure-blocking signals (suppression) are what force the model past its natural stopping point. [Learn why suppression matters more than amplification](concepts.md#why-suppression-matters-more-than-amplification).
 
 ## Base URL
 
@@ -16,7 +16,7 @@ https://ejentum-main-ab125c3.zuplo.app
 
 All requests over HTTPS. No SDK required. Free tier: 100 calls, no credit card.
 
-**Don't write code?** You can use Ejentum with zero code through [n8n](/docs/integrations#n8n) or [Make.com](/docs/integrations#makecom). Skip to the [Integrations guide](/docs/integrations).
+**Don't write code?** You can use Ejentum with zero code through [n8n](../build/integrations.md#n8n) or [Make.com](../build/integrations.md#makecom). Skip to the [Integrations guide](../build/integrations.md).
 
 ## Authentication
 
@@ -26,7 +26,7 @@ Include your API key in the `Authorization` header:
 Authorization: Bearer YOUR_API_KEY
 ```
 
-API keys are issued per account. Create a free account to generate your key from the [dashboard](/dashboard).
+API keys are issued per account. Create a free account to generate your key from the [dashboard](https://ejentum.com/dashboard).
 
 ## Your First Injection
 
@@ -132,7 +132,7 @@ The agent traced each layer as a causal graph operation, named the specific bias
 
 **The difference:** Both agents reach the same answer (direction cannot be determined). The baseline lists the data. The scaffolded agent traces the causal structure and identifies WHY each adjustment changes the picture. One is a summary. The other is a defensible analysis.
 
-*Source: [EjBench](/blog/ejbench-180-tasks) blind evaluation, Causal domain, 180 custom professional tasks. Full benchmark methodology in [Benchmarks](/docs/benchmarks).*
+*Source: [EjBench](https://ejentum.com/blog/ejbench-180-tasks) blind evaluation, Causal domain, 180 custom professional tasks. Full benchmark methodology in [Benchmarks](../understand/benchmarks.md).*
 
 **Note:** Ejentum improves HOW the agent reasons. It does not inject domain knowledge. The agent still needs access to your data.
 
@@ -140,7 +140,7 @@ The agent traced each layer as a causal graph operation, named the specific bias
 
 1. Your query was matched against 311 reasoning abilities across six types of cognitive failure. No LLM was called. Zero inference cost.
 2. The highest-scoring ability was retrieved and pre-rendered into a structured scaffold.
-3. The scaffold contains **amplification** signals (what to focus on) and **suppression** signals (what shortcuts to block). In our testing, suppression produces the largest measurable improvement. [Learn why](/docs/concepts#why-suppression-matters-more-than-amplification)
+3. The scaffold contains **amplification** signals (what to focus on) and **suppression** signals (what shortcuts to block). In our testing, suppression produces the largest measurable improvement. [Learn why](concepts.md#why-suppression-matters-more-than-amplification)
 4. The scaffold added ~500 tokens to your agent's context. Compare to a typical system prompt: 5,000 to 15,000 tokens. Compact by design.
 
 ## Inject Into Your Agent
@@ -175,11 +175,11 @@ Pick based on what your agent needs:
 
 ### How do we know this works?
 
-In a two-stage blind evaluation across [110 tasks from BIG-Bench Hard, MuSR, and CausalBench](/blog/bbh-causalbench-musr-benchmark) — all with ground truth answers — RA²R injection improved correctness from 69.7% to 76.8% (+7.1pp). The largest improvement was on the hardest tasks: multi-step abductive reasoning went from 20% to 60%.
+In a two-stage blind evaluation across [110 tasks from BIG-Bench Hard, MuSR, and CausalBench](https://ejentum.com/blog/bbh-causalbench-musr-benchmark) — all with ground truth answers — RA²R injection improved correctness from 69.7% to 76.8% (+7.1pp). The largest improvement was on the hardest tasks: multi-step abductive reasoning went from 20% to 60%.
 
 These results were tested against **Claude Opus 4.6** — a frontier thinking model with extended chain-of-thought. RA²R improved a model that already reasons well. The suppression signals block cognitive shortcuts that persist even in the most capable models: premature conclusions, forward momentum bias, and surface-level stopping.
 
-On interactive multi-step reasoning ([ARC-AGI-3](/blog/arc-agi-3-benchmark-report), 25 sequential game actions), scaffold persistence was measured at a half-life of 24 steps and reasoning quality improved over time instead of degrading.
+On interactive multi-step reasoning ([ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report), 25 sequential game actions), scaffold persistence was measured at a half-life of 24 steps and reasoning quality improved over time instead of degrading.
 
 If it improves the strongest model on the hardest benchmark, it improves yours.
 
@@ -191,15 +191,15 @@ For your first experiment, the API chooses the default. Each ability has one bui
 - **Strategy / scenario planning:** `high_variance` to let the agent explore hypotheses
 - **Most production tasks:** `adaptive` as the balanced default
 
-[Full elasticity guide](/docs/concepts#choosing-reasoning-elasticity-when-to-use-what)
+[Full elasticity guide](concepts.md#choosing-reasoning-elasticity-when-to-use-what)
 
 ## Next Steps
 
-- [Concepts](/docs/concepts) to understand the six dimensions and why suppression matters
-- [Injection Examples](/docs/examples) to see full, untruncated injection payloads
-- [Evaluate](/docs/evaluate) to measure the impact on your own agents
-- [Integrations](/docs/integrations) to connect to n8n, LangChain, CrewAI, Claude Code, and agentic IDEs
-- [Abilities](/abilities) to browse all 311 cognitive abilities
-- [API Reference](/docs/api_reference) for the full endpoint specification
-- [Use Cases](/use-cases) to see industry-specific failure patterns and how Ejentum resolves them
-- [Benchmark Tasks](/use-cases/tasks) to browse 29 real tasks with verbatim model outputs
+- [Concepts](concepts.md) to understand the six dimensions and why suppression matters
+- [Injection Examples](../build/examples.md) to see full, untruncated injection payloads
+- [Evaluate](evaluate.md) to measure the impact on your own agents
+- [Integrations](../build/integrations.md) to connect to n8n, LangChain, CrewAI, Claude Code, and agentic IDEs
+- [Abilities](https://ejentum.com/abilities) to browse all 311 cognitive abilities
+- [API Reference](../build/api_reference.md) for the full endpoint specification
+- [Use Cases](https://ejentum.com/use-cases) to see industry-specific failure patterns and how Ejentum resolves them
+- [Benchmark Tasks](https://ejentum.com/use-cases/tasks) to browse 29 real tasks with verbatim model outputs

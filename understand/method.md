@@ -97,7 +97,7 @@ In practice: a model told to "think deeply about causality" may or may not compl
 
 This is why suppression vectors are always 1–2 per ability while amplification can be 2–4. More amplification adds noise at the margin. More suppression compounds multiplicatively — each named failure mode eliminates an entire branch of incorrect outputs.
 
-Direct evidence of persistence: on ARC-AGI-3 (an interactive reasoning benchmark where the agent takes 25+ sequential actions), a single suppression signal (`start_end_only_thinking`) remained active for 24 steps with no re-injection. The scaffold's half-life equaled the entire game session. Suppression does not fire once and decay. It persists as a structural constraint across extended execution chains. Full trace data in the [ARC-AGI-3 benchmark report](/blog/arc-agi-3-benchmark-report).
+Direct evidence of persistence: on ARC-AGI-3 (an interactive reasoning benchmark where the agent takes 25+ sequential actions), a single suppression signal (`start_end_only_thinking`) remained active for 24 steps with no re-injection. The scaffold's half-life equaled the entire game session. Suppression does not fire once and decay. It persists as a structural constraint across extended execution chains. Full trace data in the [ARC-AGI-3 benchmark report](https://ejentum.com/blog/arc-agi-3-benchmark-report).
 
 ---
 
@@ -209,27 +209,27 @@ Across three independent benchmarks (180 custom tasks, 70 published academic tas
 6. Audit trail
 7. Correctness (flat or slight improvement)
 
-Two independent task sets, different complexities, different sources, same ranking. A third benchmark, ARC-AGI-3 (interactive multi-step reasoning, 50 total steps across two conditions), adds a new dimension: the same suppression signals that improve single-turn quality also prevent reasoning decay over extended execution chains. Memory decay slope reversed from -0.005 (baseline, degrading) to +0.014 (augmented, improving). Three independent benchmarks, three different task types, consistent directional effects. See [Benchmarks](/docs/benchmarks) for the full comparison.
+Two independent task sets, different complexities, different sources, same ranking. A third benchmark, ARC-AGI-3 (interactive multi-step reasoning, 50 total steps across two conditions), adds a new dimension: the same suppression signals that improve single-turn quality also prevent reasoning decay over extended execution chains. Memory decay slope reversed from -0.005 (baseline, degrading) to +0.014 (augmented, improving). Three independent benchmarks, three different task types, consistent directional effects. See [Benchmarks](benchmarks.md) for the full comparison.
 
 ### Emergent Self-Monitoring
 
 The single largest behavioral change: self-monitoring more than doubled across both benchmarks (+132% on published tasks, +92% on custom tasks).
 
-This is not incremental. Agents shift from "I will answer the question" to "I will answer the question and explicitly check whether my reasoning is sound." The scaffolds don't explicitly say "self-monitor." The suppression signals create checkpoints that force self-monitoring as a side effect. When the scaffold says "suppress forward momentum bias," the model must pause and evaluate whether it has committed to an early hypothesis. That pause IS self-monitoring. This observation is central to the [Cognitive Scaffolding Thesis](/blog/cognitive-scaffolding-thesis): scaffolds function as persistent attention anchors, and emergent self-monitoring is a direct consequence of that persistence.
+This is not incremental. Agents shift from "I will answer the question" to "I will answer the question and explicitly check whether my reasoning is sound." The scaffolds don't explicitly say "self-monitor." The suppression signals create checkpoints that force self-monitoring as a side effect. When the scaffold says "suppress forward momentum bias," the model must pause and evaluate whether it has committed to an early hypothesis. That pause IS self-monitoring. This observation is central to the [Cognitive Scaffolding Thesis](https://ejentum.com/blog/cognitive-scaffolding-thesis): scaffolds function as persistent attention anchors, and emergent self-monitoring is a direct consequence of that persistence.
 
 This is an emergent capability: the model monitors itself because the scaffold blocks the shortcuts that let it skip monitoring.
 
-A parallel emergence appeared in ARC-AGI-3 testing. At step 15 of a 25-step spatial navigation game, the scaffolded agent spontaneously switched from natural language to symbolic mathematical notation: defining formal variables, computing coordinates algebraically, reasoning about movement vectors. The scaffold's suppression signal (`start_end_only_thinking`) did not instruct math. It constrained a failure mode. The agent found its own solution to that constraint. Suppression signals are behavioral pressures. The model's adaptation is emergent. See [What Happened When an LLM Taught Itself Symbolic Math](/blog/arc-agi-3-emergent-behaviors).
+A parallel emergence appeared in ARC-AGI-3 testing. At step 15 of a 25-step spatial navigation game, the scaffolded agent spontaneously switched from natural language to symbolic mathematical notation: defining formal variables, computing coordinates algebraically, reasoning about movement vectors. The scaffold's suppression signal (`start_end_only_thinking`) did not instruct math. It constrained a failure mode. The agent found its own solution to that constraint. Suppression signals are behavioral pressures. The model's adaptation is emergent. See [What Happened When an LLM Taught Itself Symbolic Math](https://ejentum.com/blog/arc-agi-3-emergent-behaviors).
 
 ### Domain-Agnostic Suppression
 
-One of the six reasoning domains had 0% retrieval precision during external benchmarks. The wrong abilities were retrieved for every task in that domain. Yet performance still improved by +8.5 percentage points. Full analysis: [62% of Tasks Got the Wrong Domain. It Didn't Matter.](/blog/domain-agnostic-suppression)
+One of the six reasoning domains had 0% retrieval precision during external benchmarks. The wrong abilities were retrieved for every task in that domain. Yet performance still improved by +8.5 percentage points. Full analysis: [62% of Tasks Got the Wrong Domain. It Didn't Matter.](https://ejentum.com/blog/domain-agnostic-suppression)
 
 This means suppression signals are universal failure-mode blockers, not domain-specific procedures. Signals like "do not stop at surface-level explanations" work on causal tasks, temporal tasks, and abstract tasks equally. The product does not require perfect retrieval to produce measurable improvement.
 
 ### The Correctness Paradox
 
-On custom tasks where baseline accuracy was already high (2.6 out of 3.0), correctness stayed flat while every quality dimension improved dramatically. This is the thesis-defining observation. Full data: [EjBench: 180 Professional Tasks](/blog/ejbench-180-tasks).
+On custom tasks where baseline accuracy was already high (2.6 out of 3.0), correctness stayed flat while every quality dimension improved dramatically. This is the thesis-defining observation. Full data: [EjBench: 180 Professional Tasks](https://ejentum.com/blog/ejbench-180-tasks).
 
 RA²R does not improve accuracy ceiling. It prevents reasoning decay. It changes HOW the agent arrives at its answer: more self-checking, more verification, more alternative consideration, more transparent reasoning chains. On published academic tasks with clearer right/wrong answers and lower baseline accuracy, correctness did improve (+0.14). The improvement exists when there is room for it.
 

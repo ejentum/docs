@@ -109,9 +109,9 @@ Your results will vary. The improvements are largest on tasks where your agent c
 
 **What to expect on your hardest tasks:** In our benchmarks, tasks where the baseline agent gave a correct but shallow answer showed the largest quality gap. The agent reached the same conclusion, but the scaffolded version defended it with explicit reasoning chains, named verification steps, and uncertainty calibration. On tasks where the baseline already failed (wrong answer), the scaffold sometimes recovered correctness through systematic suppression of the specific shortcut that caused the error.
 
-**What to expect on multi-step tasks:** On ARC-AGI-3 (25-step interactive reasoning), the scaffold's effect compounded over time rather than decaying. Memory decay slope reversed from negative (baseline reasoning degraded) to positive (augmented reasoning improved). Scaffold language persisted for 24 steps without re-injection. If your agent runs multi-step workflows, the scaffold's value increases with chain length. See the [ARC-AGI-3 report](/blog/arc-agi-3-benchmark-report) for trace-level evidence.
+**What to expect on multi-step tasks:** On ARC-AGI-3 (25-step interactive reasoning), the scaffold's effect compounded over time rather than decaying. Memory decay slope reversed from negative (baseline reasoning degraded) to positive (augmented reasoning improved). Scaffold language persisted for 24 steps without re-injection. If your agent runs multi-step workflows, the scaffold's value increases with chain length. See the [ARC-AGI-3 report](https://ejentum.com/blog/arc-agi-3-benchmark-report) for trace-level evidence.
 
-*Source: [EjBench](/blog/ejbench-180-tasks) (180 tasks), [BBH/CausalBench/MuSR](/blog/bbh-causalbench-musr-benchmark) (70 published tasks), and [ARC-AGI-3](/blog/arc-agi-3-benchmark-report) (25 steps per condition, 2 conditions). Full methodology in [Benchmarks](/docs/benchmarks).*
+*Source: [EjBench](https://ejentum.com/blog/ejbench-180-tasks) (180 tasks), [BBH/CausalBench/MuSR](https://ejentum.com/blog/bbh-causalbench-musr-benchmark) (70 published tasks), and [ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report) (25 steps per condition, 2 conditions). Full methodology in [Benchmarks](../understand/benchmarks.md).*
 
 ## When to Upgrade to Multi Mode
 
@@ -121,8 +121,8 @@ In our benchmarks, single mode dominated on focused tasks with clear right/wrong
 
 ## Next
 
-- [Injection Examples](/docs/examples) to see full injection payloads
-- [Integrations](/docs/integrations) for framework-specific injection patterns
-- [Benchmarks](/docs/benchmarks) for our full evaluation methodology
-- [29 real benchmark tasks](/use-cases/tasks) to see verbatim baseline vs scaffolded outputs
-- [Industry use cases](/use-cases) to see how improvements map to your domain
+- [Injection Examples](../build/examples.md) to see full injection payloads
+- [Integrations](../build/integrations.md) for framework-specific injection patterns
+- [Benchmarks](../understand/benchmarks.md) for our full evaluation methodology
+- [29 real benchmark tasks](https://ejentum.com/use-cases/tasks) to see verbatim baseline vs scaffolded outputs
+- [Industry use cases](https://ejentum.com/use-cases) to see how improvements map to your domain

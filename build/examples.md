@@ -165,6 +165,6 @@ Now complete the following task:
 {your agent's actual task}
 ```
 
-The scaffold must come BEFORE the task. See [Integrations](/docs/integrations) for framework-specific patterns.
+The scaffold must come BEFORE the task. See [Integrations](integrations.md) for framework-specific patterns.
 
-See what agents produce in response to these injections: [Response Examples](/docs/response_examples) with real before/after outputs from blind benchmarks.
+See what agents produce in response to these injections: [Response Examples](response_examples.md) with real before/after outputs from blind benchmarks.

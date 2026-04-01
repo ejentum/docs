@@ -1,12 +1,12 @@
 # Response Examples
 
-After your agent absorbs an [injection](/docs/examples), its output changes. These are real outputs from blind benchmark evaluations. The agent called the Ejentum API itself, received the scaffold, and produced the response below. No cherry-picking. Full outputs and 7-signal rubric scores available on each task profile.
+After your agent absorbs an [injection](examples.md), its output changes. These are real outputs from blind benchmark evaluations. The agent called the Ejentum API itself, received the scaffold, and produced the response below. No cherry-picking. Full outputs and 7-signal rubric scores available on each task profile.
 
 ---
 
 ## Spatial: Object Tracking Under Epistemic Uncertainty
 
-**Task [EXT-SP-20](/tasks/EXT-SP-20):** Multiple characters move objects between locations. The agent must track who saw what and predict where a character would look based on their last observed state, not the object's actual position.
+**Task [EXT-SP-20](https://ejentum.com/tasks/EXT-SP-20):** Multiple characters move objects between locations. The agent must track who saw what and predict where a character would look based on their last observed state, not the object's actual position.
 
 **Without scaffold** (composite: 0.143):
 > Simon would most likely look for the book on the desk. The key passage states: "Carefully, Fred transferred the book he wanted to borrow onto the desk." Fred placed the book...
@@ -24,7 +24,7 @@ The scaffold forced the agent to separate actual state from observed state. The 
 
 ## Causal: Reverse Causality Detection
 
-**Task [CA-V2-18](/tasks/CA-V2-18):** A social media company observes that users who receive more likes post more frequently. Product managers assume likes cause posting. The agent must reason about what the data would look like if the causal direction were reversed.
+**Task [CA-V2-18](https://ejentum.com/tasks/CA-V2-18):** A social media company observes that users who receive more likes post more frequently. Product managers assume likes cause posting. The agent must reason about what the data would look like if the causal direction were reversed.
 
 **Without scaffold** (composite: 0.286):
 > The answer is (B) Negative. Under the reverse-causal model, prolific posters produce more content but each additional post dilutes quality/attention.
@@ -42,7 +42,7 @@ The scaffold forced the agent to construct a causal graph before answering. Same
 
 ## Temporal: Sequential Phase Estimation with Overage Propagation
 
-**Task [TE-V2-25](/tasks/TE-V2-25):** A software project has 5 sequential phases. Implementation has 100% overage. Testing duration depends on implementation overage via a ratio rule. The agent must compute total project duration under pessimistic estimates.
+**Task [TE-V2-25](https://ejentum.com/tasks/TE-V2-25):** A software project has 5 sequential phases. Implementation has 100% overage. Testing duration depends on implementation overage via a ratio rule. The agent must compute total project duration under pessimistic estimates.
 
 **Without scaffold** (composite: 0.190):
 > Design = 2 weeks. Implementation = 6 + 100% overage = 12 weeks (overage = 6 weeks). Testing = 3 + (overage - 1) = 3 + 5 = 8 weeks...
@@ -62,6 +62,6 @@ The scaffold enforced step-by-step temporal validation. Each phase is computed i
 
 ## Browse All Tasks
 
-These three examples are from [29 benchmark tasks](/use-cases/tasks) with full verbatim outputs, rubric scores, and source files. Each task profile shows baseline, Ki, and Haki conditions side by side.
+These three examples are from [29 benchmark tasks](https://ejentum.com/use-cases/tasks) with full verbatim outputs, rubric scores, and source files. Each task profile shows baseline, Ki, and Haki conditions side by side.
 
-See how these improvements map to specific industries: [13 use case profiles](/use-cases) with failure patterns, resolution abilities, and evidence per vertical.
+See how these improvements map to specific industries: [13 use case profiles](https://ejentum.com/use-cases) with failure patterns, resolution abilities, and evidence per vertical.

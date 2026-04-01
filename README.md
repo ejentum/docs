@@ -1,8 +1,8 @@
 # Ejentum Documentation
 
-Guides, API reference, and concepts for [Ejentum's Logic API](https://ejentum.com) -- reasoning infrastructure for AI agents.
+Everything you need to integrate Ejentum's Logic API into your agent: from a 30-second curl call to the theoretical foundations behind suppression-driven reasoning.
 
-These are the same documents rendered at [ejentum.com/docs](https://ejentum.com/docs).
+These are the same documents rendered at [ejentum.com/docs](https://ejentum.com/docs). Read them here or on the website -- same content, your choice.
 
 ---
 

@@ -32,25 +32,25 @@ For each output, score these 4 signals (0 = absent, 1 = partial, 2 = present):
 
 ### Step 3: Run With Injection (30 minutes)
 
-Same 20 tasks. Same agent. Same model. Same temperature. Only difference: inject the Ejentum scaffold before each task.
+Same 20 tasks. Same agent. Same model. Same temperature. Only difference: inject the Ejentum ability before each task.
 
 ```python
 import requests
 
-def get_scaffold(task):
+def get_injection(task, mode="reasoning"):
     try:
         r = requests.post(
             "https://ejentum-main-ab125c3.zuplo.app/logicv1/",
             headers={"Authorization": "Bearer YOUR_KEY", "Content-Type": "application/json"},
-            json={"query": task, "mode": "single"},
+            json={"query": task, "mode": mode},
             timeout=2
         )
-        return r.json()[0]["single_ability"]
+        return r.json()[0].get(mode, "")
     except:
         return ""
 
-scaffold = get_scaffold(task)
-system_message = f"[REASONING CONTEXT]\n{scaffold}\n[END REASONING CONTEXT]\n\n{your_original_system_prompt}"
+injection = get_injection(task)  # or mode="code", "anti-deception", "memory"
+system_message = f"[REASONING CONTEXT]\n{injection}\n[END REASONING CONTEXT]\n\n{your_original_system_prompt}"
 ```
 
 Score every output on the same 4 signals.
@@ -79,7 +79,7 @@ Sum the deltas across all 20 tasks for each signal.
 - No behavioral change on the hard tasks
 
 **If correctness drops:**
-- Check your queries. Vague queries retrieve vague scaffolds.
+- Check your queries. Vague queries retrieve vague abilities.
 - Send the full task description, not a summary.
 - Try rephrasing the query to be more specific about the reasoning challenge.
 
@@ -107,22 +107,24 @@ From our benchmarks across 250 tasks and 10 professional domains:
 
 Your results will vary. The improvements are largest on tasks where your agent currently fails due to reasoning shortcuts, not due to missing information.
 
-**What to expect on your hardest tasks:** In our benchmarks, tasks where the baseline agent gave a correct but shallow answer showed the largest quality gap. The agent reached the same conclusion, but the scaffolded version defended it with explicit reasoning chains, named verification steps, and uncertainty calibration. On tasks where the baseline already failed (wrong answer), the scaffold sometimes recovered correctness through systematic suppression of the specific shortcut that caused the error.
+**What to expect on your hardest tasks:** In our benchmarks, tasks where the baseline agent gave a correct but shallow answer showed the largest quality gap. The agent reached the same conclusion, but the augmented version defended it with explicit reasoning chains, named verification steps, and uncertainty calibration. On tasks where the baseline already failed (wrong answer), the injection sometimes recovered correctness through systematic suppression of the specific shortcut that caused the error.
 
-**What to expect on multi-step tasks:** On ARC-AGI-3 (25-step interactive reasoning), the scaffold's effect compounded over time rather than decaying. Memory decay slope reversed from negative (baseline reasoning degraded) to positive (augmented reasoning improved). Scaffold language persisted for 24 steps without re-injection. If your agent runs multi-step workflows, the scaffold's value increases with chain length. See the [ARC-AGI-3 report](https://ejentum.com/blog/arc-agi-3-benchmark-report) for trace-level evidence.
+**What to expect on multi-step tasks:** On ARC-AGI-3 (25-step interactive reasoning), the injection's effect compounded over time rather than decaying. Memory decay slope reversed from negative (baseline reasoning degraded) to positive (augmented reasoning improved). Injection language persisted for 24 steps without re-injection. If your agent runs multi-step workflows, the injection's value increases with chain length. See the [ARC-AGI-3 report](/blog/arc-agi-3-benchmark-report) for trace-level evidence.
 
-*Source: [EjBench](https://ejentum.com/blog/ejbench-180-tasks) (180 tasks), [BBH/CausalBench/MuSR](https://ejentum.com/blog/bbh-causalbench-musr-benchmark) (70 published tasks), and [ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report) (25 steps per condition, 2 conditions). Full methodology in [Benchmarks](../understand/benchmarks.md).*
+**What to expect on coding tasks:** On 28 hard competitive programming tasks ([LiveCodeBench Hard](/blog/livecodebench-hard-28-tasks)), the harness improved pass rate from 85.7% to 100%. The harness rescued two tasks where the model's extended thinking spiraled for 600-1200 seconds without producing code, and prevented one premature algorithm commitment. Every task the baseline solved was also solved by the augmented condition — zero regressions. If your agents write code, the injection prevents the reasoning shortcuts that produce wrong algorithms.
+
+*Source: [EjBench](/blog/ejbench-180-tasks) (180 tasks), [BBH/CausalBench/MuSR](/blog/bbh-causalbench-musr-benchmark) (70 published tasks), [ARC-AGI-3](/blog/arc-agi-3-benchmark-report) (25 steps per condition), and [LiveCodeBench Hard](/blog/livecodebench-hard-28-tasks) (28 hard competitive programming tasks). Full methodology in [Benchmarks](/docs/benchmarks).*
 
 ## When to Upgrade to Multi Mode
 
-Run the same evaluation using `"mode": "multi"` on your bottom 5 tasks. If multi mode recovers tasks that single mode didn't improve, upgrade to Haki. If single mode already covers your failure modes, stay on Ki.
+Run the same evaluation using `"mode": "reasoning-multi"` on your bottom 5 tasks. If multi mode recovers tasks that single mode didn't improve, upgrade to Haki. Also try domain-specific modes: `"code"` for engineering tasks, `"anti-deception"` for honesty-critical tasks, `"memory"` for perception tasks.
 
-In our benchmarks, single mode dominated on focused tasks with clear right/wrong answers (+8.0pp composite). Multi mode dominated on complex tasks requiring cross-domain reasoning (+10.1pp composite). The decision depends on your task profile, not on budget alone.
+In our benchmarks, single modes dominated on focused tasks with clear right/wrong answers (+8.0pp composite). multi modes dominated on complex tasks requiring cross-domain reasoning (+10.1pp composite). The decision depends on your task profile, not on budget alone.
 
 ## Next
 
-- [Injection Examples](../build/examples.md) to see full injection payloads
-- [Integrations](../build/integrations.md) for framework-specific injection patterns
-- [Benchmarks](../understand/benchmarks.md) for our full evaluation methodology
-- [29 real benchmark tasks](https://ejentum.com/use-cases/tasks) to see verbatim baseline vs scaffolded outputs
-- [Industry use cases](https://ejentum.com/use-cases) to see how improvements map to your domain
+- [Injection Examples](/docs/examples) to see full injection payloads
+- [Integrations](/docs/integrations) for framework-specific injection patterns
+- [Benchmarks](/docs/benchmarks) for our full evaluation methodology
+- [29 real benchmark tasks](/use-cases/tasks) to see verbatim baseline vs harnessed outputs
+- [Industry use cases](/use-cases) to see how improvements map to your domain

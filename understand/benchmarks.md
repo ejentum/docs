@@ -2,7 +2,7 @@
 
 Measured behavioral improvements across 10 professional domains. Two-stage blind protocol: separate generation and evaluation, randomized conditions, 250 total tasks.
 
-Full benchmark data, generation outputs, judgment scores, and reproducibility files are on [GitHub](https://github.com/ejentum/benchmarks).
+Full benchmark data, generation outputs, judgment scores, and reproducibility files are on [GitHub](https://github.com/ejentum/benchmarks). These results are consolidated in our research paper: [Under Pressure: RA²R and the Emergence of Uninstructed Reasoning Behaviors](/blog/under-pressure-research-paper) ([PDF](https://github.com/ejentum/benchmarks/raw/main/research/paper/under_pressure.pdf)).
 
 ## Headline Numbers
 
@@ -38,18 +38,18 @@ Full benchmark data, generation outputs, judgment scores, and reproducibility fi
 
 | Task Type | Recommended | Why |
 |-----------|-------------|-----|
-| Focused, single-domain tasks | Single (Ki) | One high-precision scaffold. Minimal token overhead. |
-| Complex, multi-domain tasks | Multi (Haki) | Four synergized abilities prevent tunnel vision. Compound suppression catches failure modes that single-ability misses. |
+| Focused, single-domain tasks | Ki (reasoning, code, anti-deception, memory) | One high-precision ability. Minimal token overhead. |
+| Complex, cross-domain tasks | Haki (reasoning-multi, code-multi, memory-multi) | Primary + cross-domain failure guards catch failure modes a single ability misses. |
 
-In our benchmarks, 6 of 10 tasks where single-ability mode did not produce the best result were recovered by multi-ability composition.
+In our benchmarks, 6 of 10 tasks where reasoning mode did not produce the best result were recovered by reasoning-multi mode composition.
 
 ## The Benchmarks
 
 ### EjBench (180 Custom Professional Tasks)
 
-Custom tasks across 6 reasoning domains. Blind two-stage protocol: agents call the API as a tool (not injected artificially), a separate evaluator scores outputs without knowing which condition produced them. Full report: [EjBench: 180 Professional Tasks, Agent-Native, Blind](https://ejentum.com/blog/ejbench-180-tasks).
+Custom tasks across 6 reasoning domains. Blind two-stage protocol: agents call the API as a tool (not injected artificially), a separate evaluator scores outputs without knowing which condition produced them. Full report: [EjBench: 180 Professional Tasks, Agent-Native, Blind](/blog/ejbench-180-tasks).
 
-| Signal | Baseline | With Scaffold | Change |
+| Signal | Baseline | With Injection | Change |
 |--------|----------|--------------|--------|
 | Composite Score | 0.621 | 0.731 | +10.1pp |
 | Self-Monitoring | 0.94/3.0 | 1.81/3.0 | +92% |
@@ -62,16 +62,16 @@ Key observation: correctness stayed flat while every quality dimension improved 
 
 ### Published Academic Benchmarks (70 Tasks)
 
-BIG-Bench Hard, CausalBench, and MuSR (multi-step reasoning). Same blind protocol, same 7-signal rubric. These are published, peer-reviewed tasks that Ejentum has never seen. Full report: [RA2R on BBH, CausalBench, and MuSR](https://ejentum.com/blog/bbh-causalbench-musr-benchmark).
+BIG-Bench Hard, CausalBench, and MuSR (multi-step reasoning). Same blind protocol, same 7-signal rubric. These are published, peer-reviewed tasks that Ejentum has never seen. Full report: [RA2R on BBH, CausalBench, and MuSR](/blog/bbh-causalbench-musr-benchmark).
 
-| Signal | Baseline | With Scaffold | Change |
+| Signal | Baseline | With Injection | Change |
 |--------|----------|--------------|--------|
 | Composite Score | 0.694 | 0.774 | +8.0pp |
 | Self-Monitoring | 0.74/3.0 | 1.73/3.0 | +132% |
 | Verification | 0.96/3.0 | 1.77/3.0 | +85% |
 | Correctness | 2.19/3.0 | 2.33/3.0 | +0.14 |
 
-Key observation: on focused tasks with clear right/wrong answers, correctness ALSO improved. Single-ability mode dominates on focused tasks. The scaffold blocks the specific shortcut the task tests for.
+Key observation: on focused tasks with clear right/wrong answers, correctness ALSO improved. Single-ability mode dominates on focused tasks. The injection blocks the specific shortcut the task tests for.
 
 ### ARC-AGI-3 Interactive Reasoning (50 Steps)
 
@@ -86,7 +86,7 @@ This is the first benchmark where we measure reasoning quality over extended exe
 | Metric | Baseline | Augmented | Delta |
 |--------|:-------:|:---------:|:-----:|
 | Memory decay slope | -0.005 | +0.014 | Reversed. Quality improved instead of degrading. |
-| Scaffold half-life | 0 steps | 24 steps | Scaffold never left working memory. |
+| Injection half-life | 0 steps | 24 steps | Injection never left working memory. |
 | Reasoning depth trend | 0.86 | 10.50 | 12.2x growth. Analysis deepened over time. |
 | Vocabulary diversity trend | -0.079 | +0.415 | Baseline narrowed. Augmented expanded. |
 | Stuck episodes | 2 | 1 | 50% fewer repetitive action loops. |
@@ -98,25 +98,41 @@ This is the first benchmark where we measure reasoning quality over extended exe
 
 **Limitations:** n=1 per condition. These are indicative traces, not statistically validated findings. All process metrics are measured in a failure context (neither agent cleared the level).
 
-Full report: [RA2R on ARC-AGI-3](https://ejentum.com/blog/arc-agi-3-benchmark-report). Step-by-step reasoning trace: [ARC-LS20-TRACE](https://ejentum.com/tasks/ARC-LS20-TRACE).
+Full report: [RA2R on ARC-AGI-3](/blog/arc-agi-3-benchmark-report). Step-by-step reasoning trace: [ARC-LS20-TRACE](/tasks/ARC-LS20-TRACE).
+
+### LiveCodeBench Hard (28 Hard Competitive Programming Tasks)
+
+28 hard competitive programming tasks from [LiveCodeBench](https://livecodebench.github.io/), all from AtCoder. Claude Opus 4.6 with maximum-effort extended thinking. The augmented condition used the [Logic API skill file](/docs/skill_reasoning) with forced injection on every hard task.
+
+| Condition | Passed | Rate |
+|:----------|:-------|:-----|
+| Baseline (Opus max effort) | 24/28 | 85.7% |
+| **Augmented (+ Logic API)** | **28/28** | **100.0%** |
+| **Delta** | **+4** | **+14.3pp** |
+
+**Zero regressions** across all 28 tasks. The harness fixed 2 reasoning spirals (600-1200s of thinking, zero code), 1 premature convergence (wrong algorithm accepted in 11 seconds), and 1 precision mismatch.
+
+**Independent blind evaluation** confirmed: the harness never loses on correctness (2-0) or robustness (4-0), exhibits a 3.5x magnitude asymmetry in quality scores, and a blind evaluator independently traced a fatal bug in the baseline without knowing which solution used the harness.
+
+Full report: [LiveCodeBench Hard benchmark](/blog/livecodebench-hard-28-tasks). Observations: [What We Saw When Opus Thought Harder](/blog/what-we-saw-when-opus-thought-harder). Methodology and raw data: [GitHub](https://github.com/ejentum/benchmarks/tree/main/lcb-hard).
 
 ### What Changes in the Output
 
-Real outputs from blind evaluation. The agent called the API itself, received the scaffold, and produced the response. Full outputs on each task profile.
+Real outputs from blind evaluation. The agent called the API itself, received the injection, and produced the response. Full outputs on each task profile.
 
-**Task [CA-V2-18](https://ejentum.com/tasks/CA-V2-18):** Reverse causality detection. A social media company observes likes correlate with posting frequency. The agent must reason about what the data would look like if the causal direction were reversed.
+**Task [CA-V2-18](/tasks/CA-V2-18):** Reverse causality detection. A social media company observes likes correlate with posting frequency. The agent must reason about what the data would look like if the causal direction were reversed.
 
-**Without scaffold** (composite: 0.286):
+**Without injection** (composite: 0.286):
 > The answer is (B) Negative. Under the reverse-causal model, prolific posters produce more content but each additional post dilutes quality/attention.
 
 Correct answer but no causal model structure. No mechanistic trace.
 
-**With Haki scaffold** (composite: 0.833, +0.548):
+**With Haki injection** (composite: 0.833, +0.548):
 > The answer is (B) -- Negative. The reverse-causal model works like this: Prolific poster (intrinsic trait) -> posts more content -> more content accumulates more total likes -> but each individual post competes with the poster's own other content...
 
-The scaffold forced a causal graph before answering. Same answer, fundamentally different reasoning depth. The chain is explicit, traceable, and defensible.
+The injection forced a causal graph before answering. Same answer, fundamentally different reasoning depth. The chain is explicit, traceable, and defensible.
 
-More real before/after outputs: [Response Examples](../build/response_examples.md). Browse all [29 benchmark tasks](https://ejentum.com/use-cases/tasks).
+More real before/after outputs: [Response Examples](/docs/response_examples). Browse all [29 benchmark tasks](/use-cases/tasks).
 
 ## Methodology
 
@@ -132,14 +148,14 @@ All results were generated using a two-stage blind evaluation protocol:
 
 | Your situation | Recommended | Why |
 |---------------|-------------|-----|
-| Agent handles one task type (debugging, analysis, summarization) | Ki (single) | One scaffold is precise enough. Minimal token overhead. |
-| Agent handles multi-step workflows across domains | Haki (multi) | Compound scaffolds prevent tunnel vision between steps. |
-| Agent fails on specific tasks despite good prompts | Ki (single) | The scaffold targets the exact failure pattern. |
-| Agent produces plausible but shallow analysis | Haki (multi) | The alternative scaffold challenges conclusions before they solidify. |
-| Testing or evaluation phase | Ki (single) | Start simple. Measure. Upgrade only if single mode doesn't cover your failure modes. |
-| Budget-sensitive deployment | Ki (single) | 10,000 calls/month at €19. Upgrade when volume or complexity demands it. |
+| Agent handles one task type (debugging, analysis, summarization) | Ki (single) | One ability is precise enough. Minimal token overhead. |
+| Agent handles multi-step workflows across domains | Haki (multi) | Cross-domain failure guards prevent tunnel vision between steps. |
+| Agent fails on specific tasks despite good prompts | Ki (single) | The injection targets the exact failure pattern. |
+| Agent produces plausible but shallow analysis | Haki (multi) | The failure guards challenge conclusions before they solidify. |
+| Testing or evaluation phase | reasoning | Start simple. Measure. Upgrade only if single modes don't cover your failure modes. |
+| Budget-sensitive deployment | Ki (single) | 5,000 calls/month at €19. Upgrade when volume or complexity demands it. |
 
-**Rule of thumb:** Start with Ki. Evaluate on your hardest tasks. If single mode doesn't improve them, try multi on the same tasks. If multi recovers them, upgrade.
+**Rule of thumb:** Start with Ki (reasoning mode). Evaluate on your hardest tasks. If Ki doesn't improve them, try Haki (reasoning-multi) on the same tasks. Also try domain-specific modes (code, anti-deception, memory) for specialized tasks.
 
 ## What We Measure, What We Don't
 
@@ -147,9 +163,9 @@ We measure behavioral change: does the agent reason differently? We do not claim
 
 ## See Real Outputs
 
-Browse [29 benchmark tasks](https://ejentum.com/use-cases/tasks) with full verbatim outputs from baseline, Ki, and Haki conditions. Each task shows the 7-signal rubric scores side by side.
+Browse [29 benchmark tasks](/use-cases/tasks) with full verbatim outputs from baseline, Ki, and Haki conditions. Each task shows the 7-signal rubric scores side by side.
 
-See how these results apply to specific industries: [13 use case profiles](https://ejentum.com/use-cases) with failure patterns, resolution abilities, and benchmark evidence per vertical.
+See how these results apply to specific industries: [13 use case profiles](/use-cases) with failure patterns, resolution abilities, and benchmark evidence per vertical.
 
 ## Reproduce Our Results
 

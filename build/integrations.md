@@ -4,21 +4,23 @@ Ejentum is a single POST endpoint returning JSON. Any system that can make an HT
 
 **Choose your path:** [No code (n8n)](#n8n) · [Python (LangChain)](#langchain--langgraph) · [Multi-agent (CrewAI)](#crewai) · [Claude (Agent SDK)](#claude-code--agent-sdk) · [IDE (Cursor/Windsurf)](#agentic-ides-cursor-windsurf-antigravity-codex) · [Make.com](#makecom) · [Any framework](#universal-pattern)
 
+For endpoint details, see the [API Reference](/docs/api_reference). For real injection payloads, see [Examples](/docs/examples).
+
 ## The Injection Principle
 
-Where you inject the reasoning scaffold matters as much as what you inject.
+Where you inject matters as much as what you inject.
 
 **1. Inject BEFORE the task, not after.**
-The scaffold must be the first structured content the model processes. LLMs attend most strongly to content at the beginning of context.
+The injection must be the first structured content the model processes. LLMs attend most strongly to content at the beginning of context.
 
 **2. Inject into the SYSTEM message, not the user message.**
-The system message sets the model's operational mode. Injecting into the user message treats the scaffold as data to reason about, not as a constraint to follow.
+The system message sets the model's operational mode. Injecting into the user message treats the injection as data to reason about, not as a constraint to follow.
 
 **3. Keep the injection SEPARATE from your instructions.**
-The `[REASONING CONTEXT]...[END REASONING CONTEXT]` delimiters create a distinct attention block. Do not merge the scaffold into natural language instructions.
+The `[REASONING CONTEXT]...[END REASONING CONTEXT]` delimiters create a distinct attention block. Do not merge the injection into natural language instructions.
 
 **4. Re-inject per turn in multi-turn agents.**
-Reasoning scaffolds degrade over long contexts. Call the API for each new task step and inject fresh. Our research shows that scaffolds act as persistent attention anchors, but they lose effectiveness as task-specific tokens accumulate over extended chains. Re-injection maintains the effect.
+Injections degrade over long contexts. Call the API for each new task step and inject fresh. Injections act as persistent attention anchors, but they lose effectiveness as task-specific tokens accumulate over extended chains. Re-injection maintains the effect.
 
 ---
 
@@ -38,8 +40,8 @@ Add an **AI Agent** node to your workflow. Connect an **HTTP Request Tool** node
    - Method: POST
    - URL: `https://ejentum-main-ab125c3.zuplo.app/logicv1/`
    - Authentication: Header Auth with your API key
-   - Body: `{"query": "{task_description}", "mode": "single"}`
-4. The agent receives the scaffold in the tool response and uses it to guide its reasoning
+   - Body: `{"query": "{task_description}", "mode": "reasoning"}`
+4. The agent receives the injection in the tool response and uses it to guide its reasoning
 
 The API returns a pre-rendered string. No field assembly needed.
 
@@ -58,7 +60,7 @@ from langchain_core.prompts import ChatPromptTemplate
 EJENTUM_URL = "https://ejentum-main-ab125c3.zuplo.app/logicv1/"
 EJENTUM_KEY = "YOUR_API_KEY"
 
-def get_reasoning(task: str, mode: str = "single") -> str:
+def get_injection(task: str, mode: str = "reasoning") -> str:
     try:
         r = requests.post(
             EJENTUM_URL,
@@ -67,7 +69,7 @@ def get_reasoning(task: str, mode: str = "single") -> str:
             timeout=2
         )
         r.raise_for_status()
-        injection = r.json()[0][f"{mode}_ability"]
+        injection = r.json()[0][mode]
         return f"[REASONING CONTEXT]\n{injection}\n[END REASONING CONTEXT]"
     except Exception:
         return ""
@@ -78,7 +80,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 chain = (
-    RunnablePassthrough.assign(reasoning=lambda x: get_reasoning(x["task"]))
+    RunnablePassthrough.assign(reasoning=lambda x: get_injection(x["task"]))
     | prompt
     | ChatOpenAI(model="gpt-4o")
 )
@@ -93,8 +95,8 @@ from langchain.tools import tool
 
 @tool
 def inject_reasoning(query: str) -> str:
-    """Retrieve a cognitive scaffold for the given task."""
-    return get_reasoning(query)
+    """Retrieve a cognitive ability for the given task."""
+    return get_injection(query)
 ```
 
 ---
@@ -107,7 +109,7 @@ Inject reasoning as pre-task context for each crew member.
 import requests
 from crewai import Agent, Task, Crew
 
-injection = get_reasoning("Analyze root cause of production failures")
+injection = get_injection("Analyze root cause of production failures")
 
 analyst = Agent(
     role="Production Analyst",
@@ -117,7 +119,7 @@ analyst = Agent(
 )
 ```
 
-For multi-agent crews, inject different scaffolds per agent. The root cause analyst gets a Causal scaffold. The timeline estimator gets a Temporal scaffold. The report writer gets an Abstraction scaffold.
+For multi-agent crews, inject different abilities per agent. The root cause analyst gets a Causal ability. The timeline estimator gets a Temporal ability. The report writer gets an Abstraction ability.
 
 ---
 
@@ -127,20 +129,20 @@ For multi-agent crews, inject different scaffolds per agent. The root cause anal
 
 ```python
 tools = [{
-    "name": "get_reasoning_scaffold",
-    "description": "Retrieve a cognitive scaffold for the current task",
+    "name": "get_ejentum_injection",
+    "description": "Retrieve a cognitive ability for the current task",
     "input_schema": {
         "type": "object",
         "properties": {
             "query": {"type": "string", "description": "Task description"},
-            "mode": {"type": "string", "enum": ["single", "multi"], "default": "single"}
+            "mode": {"type": "string", "enum": ["reasoning", "reasoning-multi", "anti-deception", "code", "code-multi", "memory", "memory-multi"], "default": "reasoning"}
         },
         "required": ["query"]
     }
 }]
 ```
 
-When Claude decides to use this tool, make the POST request to the Ejentum API and return the scaffold as the tool result.
+When Claude decides to use this tool, make the POST request to the Ejentum API and return the injection as the tool result.
 
 ---
 
@@ -150,7 +152,7 @@ All major agentic IDEs support custom HTTP tools natively. No wrapper needed.
 
 1. Add a custom tool definition pointing to the Ejentum POST endpoint
 2. The IDE's agent calls the tool when it needs reasoning augmentation
-3. The scaffold is injected into the agent's context automatically
+3. The injection is placed into the agent's context automatically
 
 This works identically across Cursor, Windsurf, Google Antigravity, and OpenAI Codex. Each IDE has its own tool configuration format, but the HTTP request is always the same: POST to `/logicv1/` with your query and API key.
 
@@ -170,10 +172,10 @@ Any framework. Any language. Three steps:
 
 ```
 1. POST  https://ejentum-main-ab125c3.zuplo.app/logicv1/
-   Body: {"query": "your task", "mode": "single"}
+   Body: {"query": "your task", "mode": "reasoning"}
    Auth: Bearer YOUR_API_KEY
 
-2. PARSE  response[0].single_ability  (or multi_ability)
+2. PARSE  response[0][mode]  (key matches mode name)
 
 3. INJECT  into system message before task prompt
 ```
@@ -184,7 +186,7 @@ Any framework. Any language. Three steps:
 
 ### Task-Adaptive Injection
 
-Different steps in a multi-step agent need different reasoning. Don't use one scaffold for the whole pipeline.
+Different steps in a multi-step agent need different reasoning. Don't use one injection for the whole pipeline.
 
 ```python
 tasks = [
@@ -194,11 +196,11 @@ tasks = [
 ]
 
 for task in tasks:
-    injection = get_reasoning(task["description"])
+    injection = get_injection(task["description"])
     task["agent"].backstory = f"{task['agent'].base_backstory}\n\n{injection}"
 ```
 
-The first task activates Causal reasoning. The second activates Temporal. The third activates Abstraction. One static scaffold would have forced all three agents into the same reasoning mode.
+The first task activates Causal reasoning. The second activates Temporal. The third activates Abstraction. One static injection would have forced all three agents into the same reasoning mode.
 
 ### Feedback Loop: Re-inject on Failure
 
@@ -208,27 +210,28 @@ If the agent's output fails validation, re-query with the failure description.
 result = agent.run(task)
 
 if not validate(result):
-    correction = get_reasoning(
+    correction = get_injection(
         f"Agent failed: {validation_error}. Retry with corrective reasoning."
     )
     result = agent.run(task, system_override=correction)
 ```
 
-This often triggers a Metacognitive scaffold (self-monitoring, contradiction detection) that was not selected on the first pass.
+This often triggers a Metacognitive ability (self-monitoring, contradiction detection) that was not selected on the first pass.
 
 ### Graceful Degradation
 
 Always wrap the API call with a timeout and fallback. Your agent must function if the API is unreachable.
 
 ```python
-def get_reasoning_safe(query: str) -> str:
+def get_injection_safe(query: str, mode: str = "reasoning") -> str:
     try:
-        r = requests.post(EJENTUM_URL, json={"query": query, "mode": "single"},
+        r = requests.post(EJENTUM_URL, json={"query": query, "mode": mode},
                          headers={"Authorization": f"Bearer {EJENTUM_KEY}"}, timeout=2)
         r.raise_for_status()
-        return f"[REASONING CONTEXT]\n{r.json()[0]['single_ability']}\n[END REASONING CONTEXT]"
+        payload = r.json()[0].get(mode, "")
+        return f"[REASONING CONTEXT]\n{payload}\n[END REASONING CONTEXT]" if payload else ""
     except Exception:
-        return ""  # Agent continues with native reasoning
+        return ""  # Agent continues with native capability
 ```
 
 ---
@@ -246,3 +249,7 @@ Before deploying:
 - [ ] For compound reasoning: use `multi` mode, not multiple single calls
 - [ ] Log responses to debug ability routing
 - [ ] Graceful degradation: agent functions if API is unreachable
+
+---
+
+**See also:** [Use Cases](/use-cases) for industry-specific integration patterns. [Builder's Playbook](/docs/builders_playbook) for real-world workflow examples.

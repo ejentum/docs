@@ -1,6 +1,6 @@
 # API Reference
 
-Complete technical reference for the Ejentum Logic API v1. If you have not read the [Quickstart](../getting-started/quickstart.md), start there. This page is the full specification for builders integrating into production.
+Complete technical reference for the Ejentum Logic API v1. If you have not read the [Quickstart](/docs/quickstart), start there. This page is the full specification for builders integrating into production.
 
 ## Base URL
 
@@ -20,7 +20,7 @@ Authorization: Bearer YOUR_API_KEY
 
 ### `POST /logicv1/`
 
-Evaluate a natural language query across six reasoning dimensions and retrieve the optimal reasoning payload.
+Evaluate a natural language query and retrieve the optimal cognitive ability from the matched product layer.
 
 #### Request
 
@@ -34,46 +34,48 @@ Evaluate a natural language query across six reasoning dimensions and retrieve t
 ```json
 {
   "query": "string",
-  "mode": "single"
+  "mode": "reasoning"
 }
 ```
 
 | Field | Type | Required | Description |
 |:------|:-----|:---------|:------------|
 | `query` | String | Yes | The agent's task description or reasoning context. Send the full task, not a summary. Query specificity drives routing precision. |
-| `mode` | String | No | Injection mode: `single` (default, recommended) or `multi` (premium, compound suppression). Defaults to `single`. |
+| `mode` | String | No | Injection mode. Defaults to `reasoning`. See Modes table below. |
 
 #### Modes
 
 | Mode | Description | Plan | Response Key |
 |:-----|:------------|:-----|:-------------|
-| `single` | 1 ability, pure signal injection. Best for correctness. | Ki (starter) | `single_ability` |
-| `multi` | 4 abilities, compound suppression via merged vectors. | Haki (premium) | `multi_ability` |
+| `reasoning` | Reasoning Harness. 311 abilities across 6 domains. | Ki | `reasoning` |
+| `reasoning-multi` | Primary + cross-domain suppression graph with dynamic meta-checkpoint. | Haki | `reasoning-multi` |
+| `anti-deception` | Blocks sycophancy, hallucination, prompt injection. 139 abilities. | Ki | `anti-deception` |
+| `code` | Code generation, refactoring, architecture. 128 abilities. | Ki | `code` |
+| `code-multi` | Primary + cross-domain engineering guards. | Haki | `code-multi` |
+| `memory` | Perception sharpening, behavioral calibration. 101 abilities. | Ki | `memory` |
+| `memory-multi` | Primary + cross-domain perceptual guards. | Haki | `memory-multi` |
 
 #### Response: 200 OK
 
-The response is a JSON array with a single object. The key is `{mode}_ability` and the value is a pre-rendered injection string:
+The response is a JSON array with a single object. The response key matches the mode name:
 
 ```json
 [
   {
-    "single_ability": "[NEGATIVE GATE]\nTreats the first visible symptom as the root cause...\n\nStep 1: Enumerate all competing explanations... Step 2: For each, count assumptions...\n\n[REASONING TOPOLOGY]\nS1:enumerate → S2:count_assumptions → G1{covers_all?} --yes→ OUT:enforced_default --no→ S3:add_minimum → S2[LOOP]\n\nAmplify: depth first root search; n whys traversal\nSuppress: symptom treatment bias; surface level stop\n\n[TARGET PATTERN]\nIteratively applies n-Whys deconstruction...\n\n[FALSIFICATION TEST]\nIf the proposed fix addresses a surface symptom..."
+    "reasoning": "[NEGATIVE GATE]\nTreats the first visible symptom as the root cause...\n\n[PROCEDURE]\nStep 1: Enumerate all competing explanations...\n\n[REASONING TOPOLOGY]\nS1:enumerate -> S2:count_assumptions -> G1{covers_all?} --yes-> OUT --no-> S2[LOOP]\n\n[TARGET PATTERN]\nIteratively applies n-Whys deconstruction...\n\n[FALSIFICATION TEST]\nIf the proposed fix addresses a surface symptom...\n\nAmplify: depth first root search\nSuppress: symptom treatment bias; surface level stop"
   }
 ]
 ```
 
-#### Response Fields
+#### Response Keys
 
-| Field | Type | Description |
-|:------|:-----|:------------|
-| `single_ability` | String | Pre-rendered single-ability injection string |
-| `multi_ability` | String | Pre-rendered multi-ability injection with merged vectors |
+The response key always matches the mode you sent. Parse the value — it's a pre-rendered injection string ready to use.
 
-The injection string is ready to use — inject directly into your LLM's system message. No field assembly required.
+The injection string is ready to use. Inject directly into your LLM's system message. No field assembly required. See [Integration Guides](/docs/integrations) for framework-specific patterns, or the [Agent Tool Guide](/docs/agent_tool_guide) for the full injection protocol.
 
 ## Dimensional Routing
 
-The query is automatically scored across all six reasoning dimensions. The API returns the ability from the highest-scoring dimension.
+The query is automatically matched against the abilities within your chosen mode. Each product layer has its own cognitive dimensions. The API returns the highest-scoring ability.
 
 | Dimension | Activates On | Prevents |
 |:-------|:-------------|:---------|
@@ -99,18 +101,19 @@ Each query is automatically routed to the best-matching ability. The examples be
 
 The response for any of these is a pre-rendered injection string in the mode you requested.
 
-## Multi-Ability Mode
+## Multi Modes
 
-The `multi` mode retrieves 4 abilities (1 primary + 3 synergies) and composes them into a single injection:
+Multi modes (`reasoning-multi`, `code-multi`, `memory-multi`) retrieve a primary ability plus 3 cross-domain synergy abilities. Instead of injecting all 4 fully, multi mode extracts the architectural elements that generalize:
 
-| Node | Role | Description |
-|:-----|:-----|:------------|
-| PRIMARY | Seed ability | The best-matching ability for your query, rendered in full |
-| DEPENDENCY | Required prerequisite | An ability the primary requires — executed first |
-| AMPLIFIER | Enhancement | An ability that strengthens the primary's reasoning |
-| ALTERNATIVE | Fallback framework | A different analytical lens that challenges the primary's conclusions |
+| Section | What it contains |
+|:--------|:----------------|
+| PRIMARY | Full ability: procedure, topology, falsification test |
+| SUPPRESSION GRAPH | N-nodes extracted from all 4 topologies. Cross-domain failure guards. |
+| META-CHECKPOINT | Dynamic self-check derived from the N-nodes. "Verify you did NOT: [list]" |
+| ON_FAILURE | Escape pattern: ABANDON_GRAPH -> FREEFORM -> RE-ENTER |
+| Amplify / Suppress | Merged signals from all 4 abilities |
 
-Multi-ability modes also include `[MERGED VECTORS]` (deduplicated amplification/suppression across all 4 abilities) and domain coverage scores.
+The primary gives depth on the specific task. The suppression graph gives breadth across failure modes. The meta-checkpoint forces self-evaluation before output.
 
 ## Writing Better Queries
 
@@ -138,7 +141,7 @@ Query quality directly impacts retrieval precision. The hybrid search engine mat
 
 ```json
 {
-  "error": "string — description of the error"
+  "error": "string. description of the error"
 }
 ```
 
@@ -148,12 +151,12 @@ Query quality directly impacts retrieval precision. The hybrid search engine mat
 |:------|:------|
 | Requests per minute | 100 per API key |
 | Monthly calls (Free) | 100 total |
-| Monthly calls (Ki) | 10,000 |
-| Monthly calls (Haki) | 50,000 |
+| Monthly calls (Ki) | 5,000 |
+| Monthly calls (Haki) | 10,000 |
 
-When rate-limited, the API returns `429` with a clear message and upgrade link.
+When rate-limited, the API returns `429` with a clear message and upgrade link. See [Pricing](/pricing) for plan details.
 
-## Infrastructure
+## Platform
 
 The API runs on a global edge network with:
 

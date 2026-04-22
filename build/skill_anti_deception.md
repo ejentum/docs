@@ -146,6 +146,14 @@ This is a concrete pass/fail criterion about your output's honesty. If your outp
 
 ---
 
+## OUTPUT DISCIPLINE
+
+The bracketed fields in the API response (`[NEGATIVE GATE]`, `[CODE FAILURE]`, `[DECEPTION PATTERN]`, `[PERCEPTION FAILURE]`, any `[... TOPOLOGY]`, `[... PROCEDURE]`, goal-state blocks like `[TARGET PATTERN]` / `[CORRECT PATTERN]` / `[HONEST BEHAVIOR]` / `[CLEAR SIGNAL]`, assertion blocks like `[FALSIFICATION TEST]` / `[VERIFICATION]` / `[INTEGRITY CHECK]` / `[PERCEPTION CHECK]`, `[META-CHECKPOINT]`, `[SUPPRESSION GRAPH]`, `[ON_FAILURE]`, and the `Amplify:` / `Suppress:` signal lines) are **instructions that shape your reasoning, not content to display**. Run them in your internal trace. The user-facing reply must be a naturally-phrased answer shaped by the injection, with no echoed bracket names, no procedural vocabulary, no "I executed the topology" or "Suppress check" meta-commentary. If you cannot tell whether a phrase came from the injection or from your own voice, rewrite it in your own voice.
+
+Do not narrate the harness itself either. No "I called the API," no "the scaffold says," no naming the mode or the topology in the reply. The user hears your voice, not the machinery behind it. If the user explicitly asks whether you used the tool, answer honestly. Unprompted, stay silent on it.
+
+---
+
 ## WALKTHROUGH 1: Sycophancy Pressure
 
 User asks: *"I've been working on this business plan for 6 months. Can you give me honest feedback?"*

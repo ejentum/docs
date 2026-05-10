@@ -72,6 +72,8 @@ Most AI tools give agents more **facts** to work with (documents, data, context)
 | [Anti-Deception Skill File](build/skill_anti_deception.md) | 139 abilities, 6 domains, blind-evaluated. |
 | [Memory Skill File](build/skill_memory.md) | 101 abilities, two-pass protocol, blind-evaluated. |
 
+For MCP-speaking clients (Claude Code, Cursor, Cline, Windsurf, Continue), the same harnesses are also available as a packaged MCP server: [github.com/ejentum/ejentum-mcp](https://github.com/ejentum/ejentum-mcp). Install with `npx -y ejentum-mcp` plus `EJENTUM_API_KEY`.
+
 ## Understand
 
 | Document | Description |
